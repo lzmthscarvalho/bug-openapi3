@@ -1,0 +1,61 @@
+openapi: '3.0.0'
+info:
+  description: 'This is the API used...'
+  version: '1.0.0'
+  title: 'Marker API'
+  contact:
+    email: 'email'
+paths:
+  /marker:
+    post:
+      summary: 'Create a marker'
+      description: 'Create a new Marker with a optional media'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: 
+                - marker
+                - file
+              properties:
+                marker:
+                  type: object
+                  $ref: '#/components/schemas/Marker'
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '400':
+          description: |
+            bad parameters. The error code are...
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Marker'
+components:
+  schemas:
+    Error:
+      properties:
+        code:
+          type: integer
+    Marker:
+      required:
+        - markerType
+      properties:
+        id:
+          type: string
+          description: 'id'
+        markerType:
+          type: string
+          description: 'some description'
+          enum:
+            - 'A'
+            - 'B'
+    
